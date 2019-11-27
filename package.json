@@ -1,0 +1,23 @@
+{
+  "name": "electro",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanzigWebb/electro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DanzigWebb/electro/issues"
+  },
+  "homepage": "https://github.com/DanzigWebb/electro#readme",
+  "devDependencies": {
+    "electron": "^7.1.2"
+  }
+}
