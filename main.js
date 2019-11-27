@@ -1,10 +1,10 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
-
+const fs = require('fs')
 // Храните глобальную ссылку на объект окна, если вы этого не сделаете, окно будет
 // автоматически закрываться, когда объект JavaScript собирает мусор.
 let win
 
-function createWindow () {
+function createWindow() {
   // Создаём окно браузера.
   win = new BrowserWindow({
     width: 800,
@@ -44,8 +44,8 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-   // На MacOS обычно пересоздают окно в приложении,
-   // после того, как на иконку в доке нажали и других открытых окон нету.
+  // На MacOS обычно пересоздают окно в приложении,
+  // после того, как на иконку в доке нажали и других открытых окон нету.
   if (win === null) {
     createWindow()
   }
@@ -54,11 +54,29 @@ app.on('activate', () => {
 // В этом файле вы можете включить код другого основного процесса 
 // вашего приложения. Можно также поместить их в отдельные файлы и применить к ним require.
 
-const fs = require('fs')
-ipcMain.on('consol-fs', () => {
-  const root = fs.readdirSync('/');
 
-  win.send('render-info', root)
-  console.log(root);
+var request = require('request-promise');
+const Exporter = require('./textExport/exporter')
+let exporter = new Exporter();
+
+ipcMain.on('consol-fs', (event, input) => {
+  let html;
+  const options = {
+    method: 'GET',
+    uri: input
+  }
+  request(options)
+    .then(function (response) {
+      
+      html = exporter.init(response);
+      win.send('render-info', html)
+
+      // Запрос был успешным, используйте объект ответа как хотите
+    })
+    .catch(function (err) {
+
+      // Произошло что-то плохое, обработка ошибки
+    })
+  
 })
 
