@@ -70,13 +70,36 @@ ipcMain.on('consol-fs', (event, input) => {
 
       html = exporter.init(response);
       win.send('render-info', html)
-
       // Запрос был успешным, используйте объект ответа как хотите
     })
     .catch(function (err) {
-
       // Произошло что-то плохое, обработка ошибки
     })
-  
 })
 
+
+// стянуть картинки
+const ImgExporter = require('./imgExporter/exporter')
+const imgExp = new ImgExporter();
+
+ipcMain.on('url_for_img', (event, url) => {
+
+  let src;
+  const options = {
+    method: 'GET',
+    uri: url
+  }
+  request(options)
+    .then(function (response) {
+      src = imgExp.init(response);
+      console.log(src);
+      
+      win.send('img_info', src)
+      // Запрос был успешным, используйте объект ответа как хотите
+    })
+    .catch(function (err) {
+      console.log(err);
+      
+      // Произошло что-то плохое, обработка ошибки
+    })
+})

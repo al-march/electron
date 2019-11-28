@@ -24,6 +24,7 @@
     <ul class="collection inner">
     </ul>
   </div>
+  
 </body>
 
 </html>
@@ -34,19 +35,36 @@
 
   let btn = document.querySelector('#gett')
   let url = document.querySelector('#url')
-  
-  btn.addEventListener('click', function () {
-    ipcRenderer.send('consol-fs', url.value)
-  })
-
   let inner = document.querySelector('.inner')
-  let strings = ''
-  ipcRenderer.on('render-info', (event, input) => {
-    console.log(input);
 
-    input.strings.forEach(str => {
-      strings += `<li class="collection-item"><b>${str.index}</b> | ${str.string}</li><br />`
-    });
-    inner.innerHTML = strings
+
+  btn.addEventListener('click', function () {
+    ipcRenderer.send('url_for_img', url.value)
   })
+
+  ipcRenderer.on('img_info', (event, input) => {
+    console.log(input);
+    let imges = ``;
+    input.forEach(src => {
+      imges += `<li class="collection-item"> <img src="${url.value}/${src}"> </li><br />`
+    });
+    inner.innerHTML = imges
+  })
+
+  // btn.addEventListener('click', function () {
+  //   ipcRenderer.send('consol-fs', url.value)
+  // })
+
+  // let inner = document.querySelector('.inner')
+  // let strings = ''
+  // ipcRenderer.on('render-info', (event, input) => {
+  //   console.log(input);
+
+  //   input.strings.forEach(str => {
+  //     strings += `<li class="collection-item"><b>${str.index}</b> | ${str.string}</li><br />`
+  //   });
+  //   inner.innerHTML = strings
+  // })
+
+
 </script>
