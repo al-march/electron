@@ -55,9 +55,9 @@ app.on('activate', () => {
 // вашего приложения. Можно также поместить их в отдельные файлы и применить к ним require.
 
 
-var request = require('request-promise');
+const request = require('request-promise');
 const Exporter = require('./textExport/exporter')
-let exporter = new Exporter();
+const exporter = new Exporter();
 
 ipcMain.on('consol-fs', (event, input) => {
   let html;
@@ -67,7 +67,7 @@ ipcMain.on('consol-fs', (event, input) => {
   }
   request(options)
     .then(function (response) {
-      
+
       html = exporter.init(response);
       win.send('render-info', html)
 
