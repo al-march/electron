@@ -8,11 +8,13 @@ const DataStore = require('./modules/DataStore')
 // создание нового todo-store
 const todosData = new DataStore({ name: 'Todos Main'})
 
+todosData.set('unicorn', '🦄');
+
 
 function main () {
   // окно todo
   let mainWindow = new Window({
-    file: path.join('renderer', 'index.html')
+    file: path.join('renderer', 'index.html'),
   })
   let addTodoWin
 
@@ -26,7 +28,7 @@ function main () {
     if (!addTodoWin) {
       addTodoWin = new Window({
         file: path.join('renderer', 'add.html'),
-        width: 400,
+        width: 800,
         height: 400,
         // закрытие вместе с главным окном
         parent: mainWindow
@@ -34,7 +36,7 @@ function main () {
     }
 
     // очистка
-    addTodoWin.on('clised', () => {
+    addTodoWin.on('closed', () => {
       addTodoWin = null
     })
   })
@@ -59,3 +61,4 @@ app.on('ready', main)
 app.on('window-all-closed', function() {
   app.quit()
 })
+

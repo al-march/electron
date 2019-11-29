@@ -16,10 +16,18 @@
 
 <body>
   <div class="container">
-    <h1>Your todos</h1>
-    <button id="create-todo" class="btn">Create a New Todo</button>
-
-    <div class="collection" id="todo-list"></div>
+    <div class="row">
+      <form id="add-todo-form" class="col s12">
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="material-icons prefix">mode_edit</i>
+            <textarea id="icon_prefix2" required class="materialize-textarea"></textarea>
+            <label for="icon_prefix2">Todo</label>
+          </div>
+        </div>
+        <button type="submit" class="btn">Add todo</button>
+      </form>
+    </div>
   </div>
 </body>
 
@@ -27,5 +35,5 @@
 
 
 <script>
-  require('./scripts/index.js')
+  require('./scripts/add.js')
 </script>
