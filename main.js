@@ -8,23 +8,24 @@ const DataStore = require('./modules/DataStore')
 // создание нового todo-store
 const todosData = new DataStore({ name: 'Todos Main'})
 
-todosData.set('unicorn', '🦄');
-
+let mainWindow
 
 function main () {
   // окно todo
-  let mainWindow = new Window({
+   mainWindow = new Window({
     file: path.join('renderer', 'index.html'),
   })
   let addTodoWin
-
   // инициализация с todos
-  mainWindow.once('show', () => {
+  mainWindow.on('show', () => {
     mainWindow.webContents.send('todos', todosData.todos)
+  })
+
+  mainWindow.webContents.on('reload', function () {
+    console.log('sss');
   })
   // создание окна с созданием todo
   ipcMain.on('add-todo-window', () => {
-
     if (!addTodoWin) {
       addTodoWin = new Window({
         file: path.join('renderer', 'add.html'),
@@ -34,7 +35,6 @@ function main () {
         parent: mainWindow
       })
     }
-
     // очистка
     addTodoWin.on('closed', () => {
       addTodoWin = null
@@ -43,8 +43,8 @@ function main () {
 }
 
 // создание туду и обновление
-ipcMain.on('add-todo', (event, todo) => {
-  const updatedTodos = todosData.addTodo(todo).todos // вызов метода добавления туду и вызов обновленной базы
+ipcMain.on('add-todo', (event, todo, desc) => {
+  const updatedTodos = todosData.addTodo(todo, desc).todos // вызов метода добавления туду и вызов обновленной базы
 
   mainWindow.send('todos', updatedTodos)
 })
@@ -61,4 +61,3 @@ app.on('ready', main)
 app.on('window-all-closed', function() {
   app.quit()
 })
-

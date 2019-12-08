@@ -1,31 +1,34 @@
 const Store = require('electron-store')
 
 class DataStore extends Store {
-  constructor (settings) {
+  constructor(settings) {
     // кастомные настройки к Store
     super(settings)
     this.todos = this.get('todos') || []
 
   }
-  saveTodos () {
+  saveTodos() {
     // сохраняем todos в Json файле
     this.set('todos', this.todos)
     return this
   }
 
-  getTodos () {
+  getTodos() {
     // добавляем объект todo к остальным в JSON файле
     this.todos = this.get('todos') || []
     return this
   }
 
-  addTodo (todo) {
-    
-    this.todos = [ ...this.todos, todo ]
+  addTodo(todo, desc) {
+    let newTodo = {
+      name: todo,
+      desc: desc
+    }
+    this.todos = [...this.todos, newTodo]
     return this.saveTodos()
   }
 
-  deleteTodo (todo) {
+  deleteTodo(todo) {
 
     this.todos = this.todos.filter(t => t !== todo)
     return this.saveTodos()

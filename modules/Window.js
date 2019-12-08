@@ -1,4 +1,4 @@
-const {BrowserWindow} = require('electron')
+const { BrowserWindow } = require('electron')
 
 // стандартные настройки окна
 const defaultProps = {
@@ -11,13 +11,13 @@ const defaultProps = {
 }
 
 class Window extends BrowserWindow {
-  constructor ({file, ...windowSettings}) {
+  constructor({ file, ...windowSettings }) {
     // вызывает новое окно с данными параметрами
-    super({ ...defaultProps, ...windowSettings})
+    super({ ...defaultProps, ...windowSettings })
 
     // загрузка html и открытие инструментов разработчика
     this.loadFile(file)
-    this.webContents.openDevTools()
+    // this.webContents.openDevTools()
 
     // показывается, когда готово
     this.once('ready-to-show', () => {

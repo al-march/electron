@@ -10,14 +10,28 @@ document.querySelector('#create-todo').addEventListener('click', () => {
   ipcRenderer.send('add-todo-window')
 })
 
+
+
 // генерация туду
 ipcRenderer.on('todos', (event, todos) => {
   // получение тудутега
   const todoList = document.querySelector('#todo-list')
-
+  console.log(todos);
   // генерация разметки
   const todoItems = todos.reduce((html, todo) => {
-    html += `<li class="collection-item">${todo}</li>`
+
+
+    html +=
+      `
+    <li> 
+      <div class="collapsible-header">
+        <i class="material-icons">place</i>
+        ${todo.name} 
+        <span class="badge">1</span>
+      </div>
+      <div class="collapsible-body"><p>${todo.desc}</p></div>
+    </li>
+    `
     return html
   }, '')
 
@@ -27,3 +41,5 @@ ipcRenderer.on('todos', (event, todos) => {
     item.addEventListener('click', deleteTodo)
   })
 })
+
+M.AutoInit()
